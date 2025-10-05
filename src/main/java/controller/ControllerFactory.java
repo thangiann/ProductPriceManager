@@ -27,5 +27,7 @@ public final class ControllerFactory {
     public static IController createController() {
         return null; //replace with new WhateverYourClassIs();
     }
+    
+    private int test;
 
 }
