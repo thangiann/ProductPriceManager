@@ -1,5 +1,4 @@
 package controller;
-
 /**
  * Factory class to obtain instances of IController.
  * <p>
@@ -25,7 +24,7 @@ public final class ControllerFactory {
      * @return a concrete IController implementation
      */
     public static IController createController() {
-        return null; //replace with new WhateverYourClassIs();
+        return new ProductPriceDataManagerController(); //replace with new WhateverYourClassIs();
     }
     
     private int test;
