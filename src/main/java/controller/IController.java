@@ -1,14 +1,14 @@
 package controller;
 
+import java.io.IOException;
+import java.util.List;
+
+import dto.CategoryHighlightDTO;
 import dto.ProductDTO;
 import dto.ProductHighlightDTO;
 import dto.ProductStatsDTO;
 import dto.Top10AppearanceDTO;
 import dto.YearDTO;
-import dto.CategoryHighlightDTO;
-
-import java.io.IOException;
-import java.util.List;
 
 /**
  * Facade interface for accessing and querying product price data.
@@ -93,7 +93,7 @@ public interface IController {
     /**
      * Reports highlights for a specific product.
      * <p>
-     * Highlights correspond to the years when the product appeared in the top-10 
+     * Highlights correspond to the years when the product appeared in the top-10
      * list, along with the associated news headline.
      *
      * @param productAlias the alias of the product
