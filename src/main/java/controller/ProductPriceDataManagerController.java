@@ -1,17 +1,28 @@
 package controller;
 
 import java.io.IOException;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.List;
+import java.util.Scanner;
 
 import controller.*;
 import dto.ProductDTO;
 import dto.YearDTO;
 
+
+
 public class ProductPriceDataManagerController implements IController {
 	
+
 	@Override
 	public int initializeFromIni(String iniPath, String delimiter) throws IOException{
-		return 0;
+		
+		try (Scanner in = new Scanner(iniPath)) {
+			return 0;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 	
 	@Override
@@ -32,4 +43,10 @@ public class ProductPriceDataManagerController implements IController {
 	public YearDTO getYearMeasurements(int year) {
 		
 	}
+
+	@Override
+	public ProductDTO getProductMeasurements(String productName){
+
+	}
+	
 }

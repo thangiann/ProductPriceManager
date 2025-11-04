@@ -26,7 +26,5 @@ public final class ControllerFactory {
     public static IController createController() {
         return new ProductPriceDataManagerController(); //replace with new WhateverYourClassIs();
     }
-    
-    private int test;
 
 }
