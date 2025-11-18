@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -55,6 +56,8 @@ public class ProductPriceDataManagerController implements IController {
 	
 	@Override
 	public List<YearDTO> listYears(){
+
+		ArrayList years = new ArrayList<>();
 	}
 	
 	@Override
