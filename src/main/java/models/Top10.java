@@ -13,8 +13,8 @@ public class Top10 {
     private DataLoader dl;
     private int year;
 
-    public Top10(int year){
-        this.dl = new DataLoader();
+    public Top10(int year, DataLoader data){
+        this.dl = data;
         this.year = year;
     }
 
