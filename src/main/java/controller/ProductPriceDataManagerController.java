@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Scanner;
 
+import loader.*;
 import controller.*;
 import dto.ProductDTO;
 import dto.YearDTO;
@@ -18,16 +19,38 @@ public class ProductPriceDataManagerController implements IController {
 	@Override
 	public int initializeFromIni(String iniPath, String delimiter) throws IOException{
 		
-		try (Scanner in = new Scanner(iniPath)) {
-			return 0;
+		String dataPath;
+		String metadataPath;
+
+		try (Scanner in = new Scanner( new File(iniPath))) {
+			
+			String rawDataPath = in.nextLine().trim();
+			String[] splitPath = rawDataPath.split("=");
+			dataPath = splitPath[1];
+
+			String rawMetadataPath = in.nextLine().trim();
+			String[] splitMetaData = rawMetadataPath.split("=");
+			metadataPath = splitMetaData[1];
+
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
+        	return -1;
 		}
+
+		DataLoader dl = new DataLoader();
+		
+		int lines = dl.loadData(metadataPath, delimiter);
+		dl.loadMetadata(metadataPath, delimiter); 
+
+		return lines;
 	}
 	
 	@Override
 	public void loadFile(String path, String delimiter) throws IOException{
 
+		DataLoader dl = new DataLoader();
+
+		dl.loadData(path, delimiter);
 	}
 	
 	@Override
