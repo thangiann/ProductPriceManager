@@ -17,7 +17,6 @@ public class DataLoader {
     }
 
     public int loadData(String datapath, String delimiter) throws IOException{
-
         try (BufferedReader br = new BufferedReader(new FileReader(datapath))){
             String line;
 
@@ -34,8 +33,7 @@ public class DataLoader {
         return data.size();
     }
 
-        public void loadMetadata(String datapath, String delimiter) throws IOException{
-
+    public void loadMetadata(String datapath, String delimiter) throws IOException{
         try (BufferedReader br = new BufferedReader(new FileReader(datapath))){
             String line;
 
@@ -53,13 +51,13 @@ public class DataLoader {
         }
     }
 
-        public ArrayList<String[]> getData(){
-            return this.data;
-        }
+    public ArrayList<String[]> getData(){
+        return this.data;
+    }
 
-        public ArrayList<String[]> getMetadata(){
-            return this.metadata;
-        }
+    public ArrayList<String[]> getMetadata(){
+        return this.metadata;
+    }
     
 
     public static void main(String[] args) {
