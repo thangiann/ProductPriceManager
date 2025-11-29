@@ -64,26 +64,5 @@ public class DataLoader {
     public ArrayList<String[]> getMetadata(){
         return this.metadata;
     }
-    
-
-    public static void main(String[] args) {
-        String dataFile = "src/test/resources/Input/data.tsv";
-        String metadataFile = "src/test/resources/Input/metadata.tsv";
-        
-        DataLoader dl = new DataLoader();
-
-        try {
-            dl.loadMetadata(dataFile, "/");
-        } catch (IOException e) {
-            System.err.println("Could not load metadata: " + e.getMessage());
-        }          
-
-        ArrayList<String[]> data = dl.getData();
-
-        String[] line = data.get(0);
-        for (String s:line){
-            System.out.println(s);
-        }
-    }
 
 }
