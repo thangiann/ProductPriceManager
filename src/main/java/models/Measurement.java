@@ -18,10 +18,9 @@ public class Measurement {
         this.product = product;
     }
 
+
     public MeasurementDTO createMeasurmentDTO(){
-
         this.price = findPrice(); 
-
         return new MeasurementDTO(year, product.getName(), price);
     }
 
@@ -29,7 +28,6 @@ public class Measurement {
     private double findPrice(){
         String[] yearLine = this.dl.getData().get(year - 1959);
         String priceNumber = yearLine[this.product.getId()];
-        
         return Double.parseDouble(priceNumber);
     }
 
@@ -37,6 +35,8 @@ public class Measurement {
     public Product getProduct() {return product;}
     public int getYear() {return year;}
     public double getPrice() {return price;}
+
+
     public String toString() {
         return "Measurment{" +
                 "productId=" + product.getId() + '\'' +

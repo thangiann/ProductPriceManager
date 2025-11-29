@@ -6,15 +6,18 @@ import java.util.ArrayList;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
+
 public class DataLoader {
-    
+
     private ArrayList<String[]> data;
     private ArrayList<String[]> metadata;
+
 
     public DataLoader(){
         this.data = new ArrayList<>();
         this.metadata = new ArrayList<>();
     }
+
 
     public int loadData(String datapath, String delimiter) throws IOException{
         try (BufferedReader br = new BufferedReader(new FileReader(datapath))){
@@ -32,6 +35,7 @@ public class DataLoader {
 
         return data.size();
     }
+
 
     public void loadMetadata(String datapath, String delimiter) throws IOException{
         try (BufferedReader br = new BufferedReader(new FileReader(datapath))){
@@ -51,9 +55,11 @@ public class DataLoader {
         }
     }
 
+
     public ArrayList<String[]> getData(){
         return this.data;
     }
+
 
     public ArrayList<String[]> getMetadata(){
         return this.metadata;
