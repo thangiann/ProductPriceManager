@@ -60,7 +60,7 @@ public class DataLoader {
             }
 
         } catch (FileNotFoundException e) {
-            System.err.println("File not dound ");
+            System.err.println("File not found ");
             e.printStackTrace();
         } catch (IOException e){
             System.err.println("Error reading file: " + datapath);
