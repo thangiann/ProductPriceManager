@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -74,8 +73,12 @@ public class DataLoader {
     }
 
 
-    public ArrayList<String[]> getMetadata(){
-        return this.metadata;
+    public Map<String, ArrayList<String>> getCategories(){
+        return this.categories;
+    }
+
+    public Map<String, String> getAliases(){
+        return this.getAliases();
     }
 
 }
