@@ -1,2 +1,12 @@
+# SSH Keys (Security risks)
 /id_dsa
 /id_dsa.pub
+
+# Compiled Java files
+*.class
+
+# Build directories
+target/
+
+# Log files
+*.log

@@ -43,15 +43,12 @@ public class ProductPriceDataManagerController implements IController {
 		}
 
 		this.dataLoader = new DataLoader();
-
-		// Load metadata first, then data
 		dataLoader.loadMetadata(metadataPath, delimiter);
 		int lines = dataLoader.loadData(dataPath, delimiter);
 
-		// Initialize products from data headers
-		initializeProducts();
+		initializeProducts(); //1st helper method
 
-		return lines - 1; // Subtract header line
+		return lines - 1;
 	}
 
 	@Override
@@ -68,7 +65,6 @@ public class ProductPriceDataManagerController implements IController {
 		}
 
 		List<YearDTO> years = new ArrayList<>();
-		// Skip header row (index 0), start from index 1
 		for (int i = 1; i < dataLoader.getData().size(); i++) {
 			String[] row = dataLoader.getData().get(i);
 			int year = Integer.parseInt(row[0]);
@@ -315,6 +311,7 @@ public class ProductPriceDataManagerController implements IController {
 		return listYears();
 	}
 
+
 	// Helper methods
 
 	private void initializeProducts() {
@@ -324,9 +321,7 @@ public class ProductPriceDataManagerController implements IController {
 		}
 
 		String[] headers = dataLoader.getData().get(0);
-		// Start from index 1 to skip "year" column
 		for (int i = 1; i < headers.length; i++) {
-			// Skip top10 columns (typically the last 2 columns)
 			if (headers[i].equalsIgnoreCase("CommodityTop10") ||
 					headers[i].equalsIgnoreCase("News Headline")) {
 				break;
@@ -349,7 +344,6 @@ public class ProductPriceDataManagerController implements IController {
 			return "Unknown";
 		}
 
-		// Metadata format: [ProductName, Alias, Category]
 		for (String[] metaRow : dataLoader.getMetadata()) {
 			if (metaRow.length >= 3 && metaRow[1].equals(productAlias)) {
 				return metaRow[2];
