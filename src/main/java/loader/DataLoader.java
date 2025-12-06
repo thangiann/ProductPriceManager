@@ -3,6 +3,9 @@ package loader;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
@@ -10,12 +13,14 @@ import java.io.FileReader;
 public class DataLoader {
 
     private ArrayList<String[]> data;
-    private ArrayList<String[]> metadata;
+    private Map<String, String> aliases;
+    private Map<String, ArrayList<String>> categories;
 
 
     public DataLoader(){
         this.data = new ArrayList<>();
-        this.metadata = new ArrayList<>();
+        this.aliases = new HashMap<>();
+        this.categories = new HashMap<>();
     }
 
 
@@ -43,7 +48,15 @@ public class DataLoader {
 
             while ((line = br.readLine()) != null){
                 String[] parsedData = line.split(delimiter);
-                this.metadata.add(parsedData);
+                aliases.put(parsedData[1], parsedData[0]);
+
+                if (categories.containsKey(parsedData[2])){
+                    categories.get(parsedData[2]).add(parsedData[0]);
+                }
+                else {
+                    categories.put(parsedData[3], new ArrayList<>());
+                    categories.get(parsedData[3]).add(parsedData[0]);
+                }
             }
 
         } catch (FileNotFoundException e) {
