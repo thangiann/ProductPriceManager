@@ -1,2 +1,5 @@
 /id_dsa
 /id_dsa.pub
+*.class
+target/
+*.log
