@@ -14,8 +14,8 @@ import models.Product;
 import models.Top10;
 import dto.*;
 
-
 public class ProductPriceDataManagerController implements IController {
+
 	private DataLoader dataLoader;
 	private List<Product> products;
 
@@ -42,6 +42,7 @@ public class ProductPriceDataManagerController implements IController {
 			return -1;
 		}
 
+		// Create and store DataLoader
 		this.dataLoader = new DataLoader();
 		dataLoader.loadMetadata(metadataPath, delimiter);
 		int lines = dataLoader.loadData(dataPath, delimiter);
