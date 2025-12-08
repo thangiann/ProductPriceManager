@@ -110,7 +110,9 @@ public class ProductPriceDataManagerController implements IController {
 			return null;
 		}
 
-		Product product = findProductByName(productName);
+		Map<String, String> aliases = dataLoader.getAliases();
+
+		Product product = findProductByName(aliases.get(productName));
 		if (product == null)
 			return null;
 
@@ -118,6 +120,7 @@ public class ProductPriceDataManagerController implements IController {
 		for (int i = 1; i < dataLoader.getData().size(); i++) {
 			String[] row = dataLoader.getData().get(i);
 			int year = Integer.parseInt(row[0]);
+			
 			Measurement m = new Measurement(year, product, dataLoader);
 			measurements.add(m.createMeasurmentDTO());
 		}
@@ -159,7 +162,7 @@ public class ProductPriceDataManagerController implements IController {
 			if (aliases.contains(productAlias)) {
 				List<String> headlines = top10.top10Headlines();
 				int index = aliases.indexOf(productAlias);
-				String headline = (index < headlines.size()) ? headlines.get(index) : "";
+				String headline = headlines.get(index);
 				highlights.add(new ProductHighlightDTO(year, headline));
 			}
 		}
