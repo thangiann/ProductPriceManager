@@ -46,7 +46,7 @@ public class ProductPriceDataManagerController implements IController {
 		dataLoader.loadMetadata(metadataPath, delimiter);
 		int lines = dataLoader.loadData(dataPath, delimiter);
 
-		initializeProducts(); //1st helper method
+		initializeProducts(); // 1st helper method
 
 		return lines - 1;
 	}
@@ -299,7 +299,6 @@ public class ProductPriceDataManagerController implements IController {
 		return listYears();
 	}
 
-
 	// Helper methods
 
 	private void initializeProducts() {
@@ -328,13 +327,17 @@ public class ProductPriceDataManagerController implements IController {
 	}
 
 	private String getCategoryForProduct(String productAlias) {
-		if (dataLoader.getAliases().isEmpty()) {
+		if (dataLoader.getCategories().isEmpty()) {
 			return "Unknown";
 		}
 
-		for (String[] metaRow : dataLoader.getCategories()) {
-			if (metaRow.length >= 3 && metaRow[1].equals(productAlias)) {
-				return metaRow[2];
+		// Categories is Map<String, ArrayList<String>> where key is category name
+		// and value is list of product names that belong to that category
+		for (Map.Entry<String, ArrayList<String>> entry : dataLoader.getCategories().entrySet()) {
+			String categoryName = entry.getKey();
+			ArrayList<String> productsInCategory = entry.getValue();
+			if (productsInCategory.contains(productAlias)) {
+				return categoryName;
 			}
 		}
 		return "Unknown";
