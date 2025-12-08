@@ -78,7 +78,7 @@ public class DataLoader {
     }
 
     public Map<String, String> getAliases(){
-        return this.getAliases();
+        return this.aliases;
     }
 
 }

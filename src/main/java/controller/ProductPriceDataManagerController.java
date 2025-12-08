@@ -332,7 +332,7 @@ public class ProductPriceDataManagerController implements IController {
 			return "Unknown";
 		}
 
-		for (String[] metaRow : dataLoader.getAliases()) {
+		for (String[] metaRow : dataLoader.getCategories()) {
 			if (metaRow.length >= 3 && metaRow[1].equals(productAlias)) {
 				return metaRow[2];
 			}
