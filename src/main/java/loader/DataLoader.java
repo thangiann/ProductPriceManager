@@ -53,8 +53,8 @@ public class DataLoader {
                     categories.get(parsedData[2]).add(parsedData[0]);
                 }
                 else {
-                    categories.put(parsedData[3], new ArrayList<>());
-                    categories.get(parsedData[3]).add(parsedData[0]);
+                    categories.put(parsedData[2], new ArrayList<>());
+                    categories.get(parsedData[2]).add(parsedData[0]);
                 }
             }
 
