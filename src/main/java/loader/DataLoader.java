@@ -8,26 +8,23 @@ import java.util.Map;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
-
 public class DataLoader {
 
     private ArrayList<String[]> data;
     private Map<String, String> aliases;
     private Map<String, ArrayList<String>> categories;
 
-
-    public DataLoader(){
+    public DataLoader() {
         this.data = new ArrayList<>();
         this.aliases = new HashMap<>();
         this.categories = new HashMap<>();
     }
 
-
-    public int loadData(String datapath, String delimiter) throws IOException{
-        try (BufferedReader br = new BufferedReader(new FileReader(datapath))){
+    public int loadData(String datapath, String delimiter) throws IOException {
+        try (BufferedReader br = new BufferedReader(new FileReader(datapath))) {
             String line;
 
-            while ((line = br.readLine()) != null){
+            while ((line = br.readLine()) != null) {
                 String[] parsedData = line.split(delimiter);
                 this.data.add(parsedData);
             }
@@ -40,12 +37,11 @@ public class DataLoader {
         return data.size();
     }
 
-
-    public void loadMetadata(String datapath, String delimiter) throws IOException{
-        try (BufferedReader br = new BufferedReader(new FileReader(datapath))){
+    public void loadMetadata(String datapath, String delimiter) throws IOException {
+        try (BufferedReader br = new BufferedReader(new FileReader(datapath))) {
             String line;
 
-            while ((line = br.readLine()) != null){
+            while ((line = br.readLine()) != null) {
                 String[] parsedData = line.split(delimiter);
                 aliases.put(parsedData[1], parsedData[0]);
 
@@ -61,24 +57,22 @@ public class DataLoader {
         } catch (FileNotFoundException e) {
             System.err.println("File not found ");
             e.printStackTrace();
-        } catch (IOException e){
+        } catch (IOException e) {
             System.err.println("Error reading file: " + datapath);
             e.printStackTrace();
         }
     }
 
-
-    public ArrayList<String[]> getData(){
+    public ArrayList<String[]> getData() {
         return this.data;
     }
 
-
-    public Map<String, ArrayList<String>> getCategories(){
+    public Map<String, ArrayList<String>> getCategories() {
         return this.categories;
     }
 
-    public Map<String, String> getAliases(){
-        return this.getAliases();
+    public Map<String, String> getAliases() {
+        return this.aliases;
     }
 
 }
