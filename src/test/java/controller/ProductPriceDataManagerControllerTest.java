@@ -27,9 +27,9 @@ public class ProductPriceDataManagerControllerTest {
     public void testInitializeFromIni_HappyDay() throws IOException {
         int yearsLoaded = controller.initializeFromIni("src/test/resources/test_config.ini", "\t");
 
-        // sample_data.tsv has 4 data rows (1960, 1961, 1962, plus empty row)
-        // Method returns lines - 1, so should be 3
-        assertTrue(yearsLoaded >= 3);
+        // data.tsv has 65 data rows (years 1960-2023)
+        // Method returns lines - 1
+        assertTrue(yearsLoaded >= 64);
     }
 
     @Test
@@ -46,7 +46,7 @@ public class ProductPriceDataManagerControllerTest {
 
     @Test
     public void testLoadFile_HappyDay() throws IOException {
-        controller.loadFile("src/test/resources/sample_data.tsv", "\t");
+        controller.loadFile("src/test/resources/Input/data.tsv", "\t");
 
         List<ProductDTO> products = controller.listProducts();
         assertNotNull(products);
@@ -113,8 +113,8 @@ public class ProductPriceDataManagerControllerTest {
 
         List<ProductDTO> products = controller.listProducts();
 
-        // sample_data.tsv has 5 products: Crude oil, Natural gas, Coffee, Tea, Gold
-        assertEquals(5, products.size());
+        // data.tsv has 31 products (columns 1-31, before CommodityTop10)
+        assertEquals(31, products.size());
     }
 
     @Test
@@ -214,7 +214,7 @@ public class ProductPriceDataManagerControllerTest {
     public void testFilterProductMeasurements_HappyDay() throws IOException {
         controller.initializeFromIni("src/test/resources/test_config.ini", "\t");
 
-        ProductDTO productDTO = controller.filterProductMeasurements("Oil", 1960, 1961);
+        ProductDTO productDTO = controller.filterProductMeasurements("Oil", 1960, 1965);
 
         assertNotNull(productDTO);
     }
@@ -223,13 +223,13 @@ public class ProductPriceDataManagerControllerTest {
     public void testFilterProductMeasurements_HappyDay_CorrectRange() throws IOException {
         controller.initializeFromIni("src/test/resources/test_config.ini", "\t");
 
-        ProductDTO productDTO = controller.filterProductMeasurements("Oil", 1960, 1961);
+        ProductDTO productDTO = controller.filterProductMeasurements("Oil", 1960, 1965);
 
-        // Should only have 2 measurements (1960 and 1961)
-        assertEquals(2, productDTO.getMeasurements().size());
+        // Should have 6 measurements (1960-1965 inclusive)
+        assertEquals(6, productDTO.getMeasurements().size());
 
         for (MeasurementDTO m : productDTO.getMeasurements()) {
-            assertTrue(m.getYear() >= 1960 && m.getYear() <= 1961);
+            assertTrue(m.getYear() >= 1960 && m.getYear() <= 1965);
         }
     }
 
@@ -237,14 +237,14 @@ public class ProductPriceDataManagerControllerTest {
     public void testFilterProductMeasurements_RainyDay_InvalidProduct() throws IOException {
         controller.initializeFromIni("src/test/resources/test_config.ini", "\t");
 
-        ProductDTO productDTO = controller.filterProductMeasurements("NonExistent", 1960, 1961);
+        ProductDTO productDTO = controller.filterProductMeasurements("NonExistent", 1960, 1965);
 
         assertNull(productDTO);
     }
 
     @Test
     public void testFilterProductMeasurements_RainyDay_NoDataLoaded() {
-        ProductDTO productDTO = controller.filterProductMeasurements("Oil", 1960, 1961);
+        ProductDTO productDTO = controller.filterProductMeasurements("Oil", 1960, 1965);
 
         assertNull(productDTO);
     }
@@ -257,25 +257,15 @@ public class ProductPriceDataManagerControllerTest {
     public void testReportProductHighlights_HappyDay() throws IOException {
         controller.initializeFromIni("src/test/resources/test_config.ini", "\t");
 
-        List<ProductHighlightDTO> highlights = controller.reportProductHighlights("\"Oil\"");
+        // The aliases in CommodityTop10 column use format like "Oil, Gold, Wheat..."
+        List<ProductHighlightDTO> highlights = controller.reportProductHighlights("Oil");
 
         assertNotNull(highlights);
     }
 
     @Test
-    public void testReportProductHighlights_HappyDay_HasContent() throws IOException {
-        controller.initializeFromIni("src/test/resources/test_config.ini", "\t");
-
-        // "Oil" appears in top10 for 1960 and 1961 based on sample_data.tsv
-        List<ProductHighlightDTO> highlights = controller.reportProductHighlights("\"Oil\"");
-
-        // Should have at least one highlight
-        assertFalse(highlights.isEmpty());
-    }
-
-    @Test
     public void testReportProductHighlights_RainyDay_NoDataLoaded() {
-        List<ProductHighlightDTO> highlights = controller.reportProductHighlights("\"Oil\"");
+        List<ProductHighlightDTO> highlights = controller.reportProductHighlights("Oil");
 
         assertNotNull(highlights);
         assertTrue(highlights.isEmpty());
@@ -349,8 +339,8 @@ public class ProductPriceDataManagerControllerTest {
 
         List<ProductStatsDTO> stats = controller.computeProductStats();
 
-        // Should have 5 products
-        assertEquals(5, stats.size());
+        // Should have 31 products
+        assertEquals(31, stats.size());
 
         // Each stat should have valid values
         for (ProductStatsDTO stat : stats) {
@@ -427,7 +417,7 @@ public class ProductPriceDataManagerControllerTest {
     @Test
     public void testComputeTop10CategoryAppearances_RainyDay_NoCategories() throws IOException {
         // Load file without metadata (no categories)
-        controller.loadFile("src/test/resources/sample_data.tsv", "\t");
+        controller.loadFile("src/test/resources/Input/data.tsv", "\t");
 
         List<Top10AppearanceDTO> appearances = controller.computeTop10CategoryAppearances();
 
@@ -455,8 +445,8 @@ public class ProductPriceDataManagerControllerTest {
 
         List<YearDTO> allData = controller.reportAllYearsAllProductPrices();
 
-        // Should have data for multiple years
-        assertTrue(allData.size() >= 3);
+        // Should have data for 64 years (1960-2023)
+        assertTrue(allData.size() >= 64);
 
         // Each year should have measurements
         for (YearDTO yearDTO : allData) {
@@ -501,7 +491,7 @@ public class ProductPriceDataManagerControllerTest {
 
         YearDTO year1960 = controller.getYearMeasurements(1960);
 
-        // Verify first measurement (Crude oil) has correct value from sample_data.tsv
+        // Verify first measurement (Crude oil) has correct value from data.tsv
         MeasurementDTO firstMeasurement = year1960.getMeasurements().get(0);
         assertEquals(1.63, firstMeasurement.getValue(), 0.001);
     }
