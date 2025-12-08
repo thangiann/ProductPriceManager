@@ -175,23 +175,26 @@ public class ProductPriceDataManagerController implements IController {
 
 		List<CategoryHighlightDTO> highlights = new ArrayList<>();
 
+		Map<String, ArrayList<String>> categories = dataLoader.getCategories();
+		Map<String, String> aliases = dataLoader.getAliases();
+
 		for (int i = 1; i < dataLoader.getData().size(); i++) {
 			String[] row = dataLoader.getData().get(i);
 			int year = Integer.parseInt(row[0]);
 
 			Top10 top10 = new Top10(year, dataLoader);
-			List<String> aliases = top10.top10Aliases();
+			List<String> top10Aliases = top10.top10Aliases();
 			List<String> headlines = top10.top10Headlines();
 
-			for (int j = 0; j < aliases.size(); j++) {
-				String productAlias = aliases.get(j);
-				String productCategory = getCategoryForProduct(productAlias);
+			for(int j = 0; j < top10Aliases.size(); j++){
+				String alias = top10Aliases.get(j);
 
-				if (category.equals(productCategory)) {
-					String headline = (j < headlines.size()) ? headlines.get(j) : "";
-					highlights.add(new CategoryHighlightDTO(year, productAlias, headline));
+				if (categories.get(category).contains(alias)){
+					highlights.add(new CategoryHighlightDTO(year, aliases.get(alias), headlines.get(j)));
 				}
 			}
+
+			
 		}
 
 		return highlights;

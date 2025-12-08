@@ -46,11 +46,11 @@ public class DataLoader {
                 aliases.put(parsedData[1], parsedData[0]);
 
                 if (categories.containsKey(parsedData[2])){
-                    categories.get(parsedData[2]).add(parsedData[0]);
+                    categories.get(parsedData[2]).add(parsedData[1]);
                 }
                 else {
                     categories.put(parsedData[2], new ArrayList<>());
-                    categories.get(parsedData[2]).add(parsedData[0]);
+                    categories.get(parsedData[2]).add(parsedData[1]);
                 }
             }
 

@@ -1,7 +1,5 @@
 package models;
 
-import java.util.ArrayList;
-
 import dto.*;
 import loader.DataLoader;
 
