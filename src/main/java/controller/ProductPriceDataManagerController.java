@@ -42,7 +42,6 @@ public class ProductPriceDataManagerController implements IController {
 			return -1;
 		}
 
-		// Create and store DataLoader
 		this.dataLoader = new DataLoader();
 		dataLoader.loadMetadata(metadataPath, delimiter);
 		int lines = dataLoader.loadData(dataPath, delimiter);
@@ -92,14 +91,12 @@ public class ProductPriceDataManagerController implements IController {
 		if (dataLoader == null)
 			return null;
 
-		// Create measurements for all products in this year
 		List<MeasurementDTO> measurements = new ArrayList<>();
 		for (Product p : products) {
 			Measurement m = new Measurement(year, p, dataLoader);
 			measurements.add(m.createMeasurmentDTO());
 		}
 
-		// Get Top10 data
 		Top10 top10 = new Top10(year, dataLoader);
 		List<String> top10Aliases = top10.top10Aliases();
 		List<String> top10Headlines = top10.top10Headlines();
@@ -113,13 +110,11 @@ public class ProductPriceDataManagerController implements IController {
 			return null;
 		}
 
-		// Find the product
 		Product product = findProductByName(productName);
 		if (product == null)
 			return null;
 
 		List<MeasurementDTO> measurements = new ArrayList<>();
-		// Skip header row, iterate through all years
 		for (int i = 1; i < dataLoader.getData().size(); i++) {
 			String[] row = dataLoader.getData().get(i);
 			int year = Integer.parseInt(row[0]);
@@ -154,7 +149,6 @@ public class ProductPriceDataManagerController implements IController {
 
 		List<ProductHighlightDTO> highlights = new ArrayList<>();
 
-		// Check each year for this product in top10
 		for (int i = 1; i < dataLoader.getData().size(); i++) {
 			String[] row = dataLoader.getData().get(i);
 			int year = Integer.parseInt(row[0]);
@@ -164,7 +158,6 @@ public class ProductPriceDataManagerController implements IController {
 
 			if (aliases.contains(productAlias)) {
 				List<String> headlines = top10.top10Headlines();
-				// Find matching headline (same position as alias)
 				int index = aliases.indexOf(productAlias);
 				String headline = (index < headlines.size()) ? headlines.get(index) : "";
 				highlights.add(new ProductHighlightDTO(year, headline));
@@ -176,13 +169,12 @@ public class ProductPriceDataManagerController implements IController {
 
 	@Override
 	public List<CategoryHighlightDTO> reportCategoryHighlights(String category) {
-		if (dataLoader == null || dataLoader.getData().isEmpty() || dataLoader.getMetadata().isEmpty()) {
+		if (dataLoader == null || dataLoader.getData().isEmpty() || dataLoader.getCategories().isEmpty()) {
 			return new ArrayList<>();
 		}
 
 		List<CategoryHighlightDTO> highlights = new ArrayList<>();
 
-		// Check each year
 		for (int i = 1; i < dataLoader.getData().size(); i++) {
 			String[] row = dataLoader.getData().get(i);
 			int year = Integer.parseInt(row[0]);
@@ -191,7 +183,6 @@ public class ProductPriceDataManagerController implements IController {
 			List<String> aliases = top10.top10Aliases();
 			List<String> headlines = top10.top10Headlines();
 
-			// Check each product in top10
 			for (int j = 0; j < aliases.size(); j++) {
 				String productAlias = aliases.get(j);
 				String productCategory = getCategoryForProduct(productAlias);
@@ -221,7 +212,6 @@ public class ProductPriceDataManagerController implements IController {
 			double lastValue = 0;
 			int count = 0;
 
-			// Calculate stats across all years
 			for (int i = 1; i < dataLoader.getData().size(); i++) {
 				String[] row = dataLoader.getData().get(i);
 				int year = Integer.parseInt(row[0]);
@@ -253,8 +243,6 @@ public class ProductPriceDataManagerController implements IController {
 		}
 
 		Map<String, Integer> counts = new HashMap<>();
-
-		// Count appearances across all years
 		for (int i = 1; i < dataLoader.getData().size(); i++) {
 			String[] row = dataLoader.getData().get(i);
 			int year = Integer.parseInt(row[0]);
@@ -277,13 +265,12 @@ public class ProductPriceDataManagerController implements IController {
 
 	@Override
 	public List<Top10AppearanceDTO> computeTop10CategoryAppearances() {
-		if (dataLoader == null || dataLoader.getData().isEmpty() || dataLoader.getMetadata().isEmpty()) {
+		if (dataLoader == null || dataLoader.getData().isEmpty() || dataLoader.getCategories().isEmpty()) {
 			return new ArrayList<>();
 		}
 
 		Map<String, Integer> counts = new HashMap<>();
 
-		// Count category appearances across all years
 		for (int i = 1; i < dataLoader.getData().size(); i++) {
 			String[] row = dataLoader.getData().get(i);
 			int year = Integer.parseInt(row[0]);
@@ -341,11 +328,11 @@ public class ProductPriceDataManagerController implements IController {
 	}
 
 	private String getCategoryForProduct(String productAlias) {
-		if (dataLoader.getMetadata().isEmpty()) {
+		if (dataLoader.getAliases().isEmpty()) {
 			return "Unknown";
 		}
 
-		for (String[] metaRow : dataLoader.getMetadata()) {
+		for (String[] metaRow : dataLoader.getAliases()) {
 			if (metaRow.length >= 3 && metaRow[1].equals(productAlias)) {
 				return metaRow[2];
 			}
