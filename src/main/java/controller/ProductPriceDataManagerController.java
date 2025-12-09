@@ -14,8 +14,8 @@ import models.Product;
 import models.Top10;
 import dto.*;
 
-public class ProductPriceDataManagerController implements IController {
 
+public class ProductPriceDataManagerController implements IController {
 	private DataLoader dataLoader;
 	private List<Product> products;
 
@@ -196,10 +196,7 @@ public class ProductPriceDataManagerController implements IController {
 					highlights.add(new CategoryHighlightDTO(year, aliases.get(alias), headlines.get(j)));
 				}
 			}
-
-			
 		}
-
 		return highlights;
 	}
 
@@ -305,7 +302,7 @@ public class ProductPriceDataManagerController implements IController {
 		return listYears();
 	}
 
-	// Helper methods
+																// Helper methods
 
 	private void initializeProducts() {
 		products.clear();

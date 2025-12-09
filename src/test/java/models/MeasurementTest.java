@@ -8,8 +8,8 @@ import org.junit.Test;
 import dto.MeasurementDTO;
 import loader.DataLoader;
 
-public class MeasurementTest {
 
+public class MeasurementTest {
     private DataLoader dataLoader;
 
     @Before
@@ -19,7 +19,6 @@ public class MeasurementTest {
         dataLoader.loadMetadata("src/test/resources/Input/metadata.tsv", "\t");
     }
 
-    // ==================== HAPPY DAY TESTS ====================
 
     @Test
     public void testMeasurementConstructor() {
