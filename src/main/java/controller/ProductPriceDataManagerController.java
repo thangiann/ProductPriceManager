@@ -342,7 +342,17 @@ public class ProductPriceDataManagerController implements IController {
 			if (productsInCategory.contains(productAlias)) {
 				return categoryName;
 			}
+
+			if(productAlias.equals("Corn")){
+				return "AgriculturalProducts";
+			}
+
+			if(productAlias.equals("Steel")){
+				return "Metals-n-Minerals";
+			}
 		}
+
+		System.out.println("alias " + productAlias);
 		return "Unknown";
 	}
 }

@@ -44,7 +44,7 @@ public class DataLoader {
             while ((line = br.readLine()) != null) {
                 String[] parsedData = line.split(delimiter);
                 aliases.put(parsedData[1], parsedData[0]);
-
+                
                 if (categories.containsKey(parsedData[2])){
                     categories.get(parsedData[2]).add(parsedData[1]);
                 }

@@ -23,10 +23,6 @@ public class Top10 {
     public ArrayList<String> top10Headlines(){
         String[] yearLine = dl.getData().get(year - 1959);
         String[] top10Array = yearLine[headlinesPosition].split(delimitierHeadlines);
-
-        for (String headline:top10Array){
-            System.out.println("headline " + headline);
-        }
         ArrayList<String> top10 = new ArrayList<>(Arrays.asList(top10Array));
         return top10;
     }
@@ -35,6 +31,10 @@ public class Top10 {
     public ArrayList<String> top10Aliases(){
         String[] yearLine = dl.getData().get(year - 1959);
         String[] top10Array = yearLine[alliasesPosition].replace("\"", "").split(delimiterAliases);
+
+        for(int i = 0; i < top10Array.length; i++){
+            top10Array[i] = top10Array[i].strip();
+        }
         ArrayList<String> top10 = new ArrayList<>(Arrays.asList(top10Array));
         return top10;
     }
