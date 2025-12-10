@@ -8,7 +8,7 @@ import loader.*;
 
 public class Top10 {
     
-    private String delimitierHeadlines = "|";
+    private String delimitierHeadlines = "\\|";
     private String delimiterAliases = ",";
     private int headlinesPosition = 33;
     private int alliasesPosition = 32;
@@ -23,6 +23,10 @@ public class Top10 {
     public ArrayList<String> top10Headlines(){
         String[] yearLine = dl.getData().get(year - 1959);
         String[] top10Array = yearLine[headlinesPosition].split(delimitierHeadlines);
+
+        for (String headline:top10Array){
+            System.out.println("headline " + headline);
+        }
         ArrayList<String> top10 = new ArrayList<>(Arrays.asList(top10Array));
         return top10;
     }
