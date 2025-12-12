@@ -1,9 +1,10 @@
 package models;
 
-import static org.junit.Assert.*;
 
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
+
 
 public class ProductTest {
 
@@ -12,7 +13,6 @@ public class ProductTest {
         // Nothing to set up
     }
 
-    // ==================== HAPPY DAY TESTS ====================
 
     @Test
     public void testProductConstructor() {
@@ -47,7 +47,6 @@ public class ProductTest {
         assertEquals(3, product3.getId());
     }
 
-    // ==================== RAINY DAY TESTS ====================
 
     @Test
     public void testProductWithEmptyName() {

@@ -1,10 +1,9 @@
 package models;
 
-import static org.junit.Assert.*;
 
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
-
 import dto.MeasurementDTO;
 import loader.DataLoader;
 
@@ -56,10 +55,8 @@ public class MeasurementTest {
     @Test
     public void testMeasurementDifferentYears() {
         Product product = new Product("Crude oil (average)", 1);
-
         Measurement m1960 = new Measurement(1960, product, dataLoader);
         Measurement m1961 = new Measurement(1961, product, dataLoader);
-
         MeasurementDTO dto1960 = m1960.createMeasurmentDTO();
         MeasurementDTO dto1961 = m1961.createMeasurmentDTO();
 
@@ -71,10 +68,8 @@ public class MeasurementTest {
     public void testMeasurementDifferentProducts() {
         Product oil = new Product("Crude oil (average)", 1);
         Product gas = new Product("Natural gas avg", 2);
-
         Measurement oilMeasure = new Measurement(1960, oil, dataLoader);
         Measurement gasMeasure = new Measurement(1960, gas, dataLoader);
-
         MeasurementDTO oilDTO = oilMeasure.createMeasurmentDTO();
         MeasurementDTO gasDTO = gasMeasure.createMeasurmentDTO();
 
@@ -94,13 +89,12 @@ public class MeasurementTest {
         assertTrue(result.contains("1.63"));
     }
 
-    // ==================== RAINY DAY TESTS ====================
 
     @Test
     public void testMeasurementWithNullProduct() {
-        // Edge case: creating measurement with null product
-        // Note: This will fail when createMeasurmentDTO is called
-        // but constructor should work
+        /*  Edge case: creating measurement with null product
+        This will fail when createMeasurmentDTO is called
+        but constructor should work  */
         Measurement measurement = new Measurement(1960, null, dataLoader);
         assertEquals(1960, measurement.getYear());
         assertNull(measurement.getProduct());

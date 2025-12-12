@@ -1,16 +1,14 @@
 package models;
 
+
 import static org.junit.Assert.*;
-
 import java.util.ArrayList;
-
 import org.junit.Before;
 import org.junit.Test;
-
 import loader.DataLoader;
 
-public class Top10Test {
 
+public class Top10Test {
     private DataLoader dataLoader;
 
     @Before
@@ -20,7 +18,6 @@ public class Top10Test {
         dataLoader.loadMetadata("src/test/resources/Input/metadata.tsv", "\t");
     }
 
-    // ==================== HAPPY DAY TESTS ====================
 
     @Test
     public void testTop10Constructor() {
@@ -42,8 +39,6 @@ public class Top10Test {
         Top10 top10 = new Top10(1960, dataLoader);
         ArrayList<String> aliases = top10.top10Aliases();
 
-        // Based on data.tsv: "Oil, Gold, Wheat, Coffee, Cotton, Sugar, Steel, Copper,
-        // Rubber, Silver" for 1960
         assertTrue(aliases.size() > 0);
     }
 
@@ -61,7 +56,6 @@ public class Top10Test {
         Top10 top10 = new Top10(1960, dataLoader);
         ArrayList<String> headlines = top10.top10Headlines();
 
-        // Headlines are split by "|"
         String firstHeadline = headlines.get(0);
         assertNotNull(firstHeadline);
     }
@@ -70,7 +64,6 @@ public class Top10Test {
     public void testTop10DifferentYears() {
         Top10 top10_1960 = new Top10(1960, dataLoader);
         Top10 top10_1961 = new Top10(1961, dataLoader);
-
         ArrayList<String> aliases1960 = top10_1960.top10Aliases();
         ArrayList<String> aliases1961 = top10_1961.top10Aliases();
 
@@ -87,13 +80,11 @@ public class Top10Test {
         assertEquals(aliases.size(), headlines.size());
     }
 
-    // ==================== RAINY DAY TESTS ====================
 
     @Test
     public void testTop10WithNullDataLoader() {
         // Edge case: This will cause NullPointerException when methods are called
         Top10 top10 = new Top10(1960, null);
         assertNotNull(top10);
-        // We don't call methods because they would throw NPE
     }
 }

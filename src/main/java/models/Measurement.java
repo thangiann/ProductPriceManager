@@ -3,8 +3,8 @@ package models;
 import dto.*;
 import loader.DataLoader;
 
+
 public class Measurement {
-    
     private Product product;
     private int year;
     private double price;
