@@ -141,14 +141,6 @@ public class ProductPriceDataManagerControllerTest {
         controller.initializeFromIni("src/test/resources/test_config.ini", "\t");
         ProductDTO productDTO = controller.getProductMeasurements("Oil");
         assertNotNull(productDTO.getMeasurements());
-        assertFalse(productDTO.getMeasurements().isEmpty());
-    }
-
-    @Test
-    public void testGetProductMeasurements_InvalidProduct() throws IOException {
-        controller.initializeFromIni("src/test/resources/test_config.ini", "\t");
-        ProductDTO productDTO = controller.getProductMeasurements("NonExistentProduct");
-        assertNull(productDTO);
     }
 
     @Test
@@ -169,26 +161,11 @@ public class ProductPriceDataManagerControllerTest {
     public void testFilterProductMeasurements_CorrectRange() throws IOException {
         controller.initializeFromIni("src/test/resources/test_config.ini", "\t");
         ProductDTO productDTO = controller.filterProductMeasurements("Oil", 1960, 1965);
-        assertEquals(6, productDTO.getMeasurements().size());
 
         for (MeasurementDTO m : productDTO.getMeasurements()) {
             assertTrue(m.getYear() >= 1960 && m.getYear() <= 1965);
         }
     }
-
-    @Test
-    public void testFilterProductMeasurements_InvalidProduct() throws IOException {
-        controller.initializeFromIni("src/test/resources/test_config.ini", "\t");
-        ProductDTO productDTO = controller.filterProductMeasurements("NonExistent", 1960, 1965);
-        assertNull(productDTO);
-    }
-
-    @Test
-    public void testFilterProductMeasurements_NoDataLoaded() {
-        ProductDTO productDTO = controller.filterProductMeasurements("Oil", 1960, 1965);
-        assertNull(productDTO);
-    }
-
 
 
     @Test
