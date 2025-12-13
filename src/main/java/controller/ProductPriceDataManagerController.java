@@ -91,6 +91,8 @@ public class ProductPriceDataManagerController implements IController {
 		if (dataLoader == null)
 			return null;
 
+		// invalid year
+
 		List<MeasurementDTO> measurements = new ArrayList<>();
 		for (Product p : products) {
 			Measurement m = new Measurement(year, p, dataLoader);

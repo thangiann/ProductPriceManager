@@ -13,6 +13,8 @@ public class DataLoader {
     private ArrayList<String[]> data;
     private Map<String, String> aliases;
     private Map<String, ArrayList<String>> categories;
+    private int years;
+    private int firstYear;
 
     public DataLoader() {
         this.data = new ArrayList<>();
