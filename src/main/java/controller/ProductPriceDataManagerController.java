@@ -69,9 +69,10 @@ public class ProductPriceDataManagerController implements IController {
 		List<YearDTO> years = new ArrayList<>();
 		for (int i = 1; i < dataLoader.getData().size(); i++) {
 			String[] row = dataLoader.getData().get(i);
-			int year = Integer.parseInt(row[0]);
+			Integer year = Integer.parseInt(row[0]);
 			years.add(getYearMeasurements(year));
 		}
+
 		return years;
 	}
 
@@ -97,7 +98,7 @@ public class ProductPriceDataManagerController implements IController {
 		int firstYear = dataLoader.findFirstYear();
 		int lastYear = firstYear + this.years - 1;
 
-		if(year >= lastYear || year <= firstYear){
+		if(year > lastYear || year < firstYear){
 			return null;
 		}
 
@@ -141,6 +142,17 @@ public class ProductPriceDataManagerController implements IController {
 		ProductDTO fullData = getProductMeasurements(productName);
 
 		List<MeasurementDTO> filtered = new ArrayList<>();
+
+		// invalid year
+		int firstYear = dataLoader.findFirstYear();
+		int lastYear = firstYear + this.years - 1;
+
+		if(minYear < firstYear){
+			minYear = firstYear;
+		}
+		if(maxYear > lastYear){
+			maxYear = lastYear;
+		}
 
 		for (MeasurementDTO m : fullData.getMeasurements()) {
 
