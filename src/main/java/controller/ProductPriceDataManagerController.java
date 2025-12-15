@@ -18,6 +18,7 @@ import dto.*;
 public class ProductPriceDataManagerController implements IController {
 	private DataLoader dataLoader;
 	private List<Product> products;
+	private int years;
 
 	public ProductPriceDataManagerController() {
 		this.dataLoader = null;
@@ -48,7 +49,8 @@ public class ProductPriceDataManagerController implements IController {
 
 		initializeProducts(); // 1st helper method
 
-		return lines - 1;
+		this.years = lines;
+		return lines;
 	}
 
 	@Override
@@ -62,7 +64,7 @@ public class ProductPriceDataManagerController implements IController {
 	public List<YearDTO> listYears() {
 		if (dataLoader == null || dataLoader.getData().isEmpty()) {
 			return new ArrayList<>();
-		}
+		};
 
 		List<YearDTO> years = new ArrayList<>();
 		for (int i = 1; i < dataLoader.getData().size(); i++) {
@@ -92,6 +94,12 @@ public class ProductPriceDataManagerController implements IController {
 			return null;
 
 		// invalid year
+		int firstYear = dataLoader.findFirstYear();
+		int lastYear = firstYear + this.years - 1;
+
+		if(year >= lastYear || year <= firstYear){
+			return null;
+		}
 
 		List<MeasurementDTO> measurements = new ArrayList<>();
 		for (Product p : products) {
@@ -131,9 +139,6 @@ public class ProductPriceDataManagerController implements IController {
 	@Override
 	public ProductDTO filterProductMeasurements(String productName, int minYear, int maxYear) {
 		ProductDTO fullData = getProductMeasurements(productName);
-		if (fullData.getMeasurements().isEmpty()){
-			//System.out.println("empty");;
-		}
 
 		List<MeasurementDTO> filtered = new ArrayList<>();
 
@@ -340,8 +345,6 @@ public class ProductPriceDataManagerController implements IController {
 			return "Unknown";
 		}
 
-		// Categories is Map<String, ArrayList<String>> where key is category name
-		// and value is list of product names that belong to that category
 		for (Map.Entry<String, ArrayList<String>> entry : dataLoader.getCategories().entrySet()) {
 			String categoryName = entry.getKey();
 			ArrayList<String> productsInCategory = entry.getValue();

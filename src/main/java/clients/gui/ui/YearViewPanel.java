@@ -40,6 +40,9 @@ public class YearViewPanel extends JPanel {
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "Enter a valid integer year");
             }
+            catch (NullPointerException ex) {
+                JOptionPane.showMessageDialog(this, "Enter a year from the available years");
+            }
         });
 
         add(top, BorderLayout.NORTH);

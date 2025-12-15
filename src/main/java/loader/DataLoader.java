@@ -13,8 +13,6 @@ public class DataLoader {
     private ArrayList<String[]> data;
     private Map<String, String> aliases;
     private Map<String, ArrayList<String>> categories;
-    private int years;
-    private int firstYear;
 
     public DataLoader() {
         this.data = new ArrayList<>();
@@ -36,7 +34,7 @@ public class DataLoader {
             e.printStackTrace();
         }
 
-        return data.size();
+        return data.size() - 1;
     }
 
     public void loadMetadata(String datapath, String delimiter) throws IOException {
@@ -75,6 +73,11 @@ public class DataLoader {
 
     public Map<String, String> getAliases() {
         return this.aliases;
+    }
+
+    public int findFirstYear(){
+        String[] line = this.data.get(1);
+        return Integer.valueOf(line[0]);
     }
 
 }
