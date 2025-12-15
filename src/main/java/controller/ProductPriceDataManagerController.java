@@ -112,17 +112,19 @@ public class ProductPriceDataManagerController implements IController {
 			return null;
 		}
 
-		Product product = findProductByName(productName);
-		
-		List<MeasurementDTO> measurements = new ArrayList<>();
-		if(product != null){
-			for (int i = 1; i < dataLoader.getData().size(); i++) {
-				String[] row = dataLoader.getData().get(i);
-				int year = Integer.parseInt(row[0]);
+		Map<String, String> aliases = dataLoader.getAliases();
 
-				Measurement m = new Measurement(year, product, dataLoader);
-				measurements.add(m.createMeasurmentDTO());
-			}
+		Product product = findProductByName(aliases.get(productName));
+		if (product == null)
+			return null;
+
+		List<MeasurementDTO> measurements = new ArrayList<>();
+		for (int i = 1; i < dataLoader.getData().size(); i++) {
+			String[] row = dataLoader.getData().get(i);
+			int year = Integer.parseInt(row[0]);
+			
+			Measurement m = new Measurement(year, product, dataLoader);
+			measurements.add(m.createMeasurmentDTO());
 		}
 
 		return new ProductDTO(productName, measurements);
@@ -131,20 +133,16 @@ public class ProductPriceDataManagerController implements IController {
 	@Override
 	public ProductDTO filterProductMeasurements(String productName, int minYear, int maxYear) {
 		ProductDTO fullData = getProductMeasurements(productName);
-		if (fullData.getMeasurements().isEmpty()){
-			//System.out.println("empty");;
-		}
+		if (fullData == null)
+			return null;
 
 		List<MeasurementDTO> filtered = new ArrayList<>();
-
 		for (MeasurementDTO m : fullData.getMeasurements()) {
-
 			if (m.getYear() >= minYear && m.getYear() <= maxYear) {
-
 				filtered.add(m);
 			}
-
 		}
+
 		return new ProductDTO(productName, filtered);
 	}
 
@@ -306,7 +304,7 @@ public class ProductPriceDataManagerController implements IController {
 		return listYears();
 	}
 
-	// Helper methods
+																// Helper methods
 
 	private void initializeProducts() {
 		products.clear();
@@ -320,18 +318,16 @@ public class ProductPriceDataManagerController implements IController {
 					headers[i].equalsIgnoreCase("News Headline")) {
 				break;
 			}
-			products.add(new Product(headers[i].strip(), i));
+			products.add(new Product(headers[i], i));
 		}
 	}
 
-	private Product findProductByName(String productName){
-
-		for (Product p: this.products){
-			if(p.getName().equals(productName.strip())){
+	private Product findProductByName(String name) {
+		for (Product p : products) {
+			if (p.getName().equals(name)) {
 				return p;
 			}
 		}
-
 		return null;
 	}
 
