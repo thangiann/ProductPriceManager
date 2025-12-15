@@ -12,12 +12,14 @@ public class DataLoader {
 
     private ArrayList<String[]> data;
     private Map<String, String> aliases;
+    private Map<String, String> names;
     private Map<String, ArrayList<String>> categories;
 
     public DataLoader() {
         this.data = new ArrayList<>();
         this.aliases = new HashMap<>();
         this.categories = new HashMap<>();
+        this.names = new HashMap<>();
     }
 
     public int loadData(String datapath, String delimiter) throws IOException {
@@ -44,6 +46,7 @@ public class DataLoader {
             while ((line = br.readLine()) != null) {
                 String[] parsedData = line.split(delimiter);
                 aliases.put(parsedData[1], parsedData[0]);
+                names.put(parsedData[0], parsedData[1]);
                 
                 if (categories.containsKey(parsedData[2])){
                     categories.get(parsedData[2]).add(parsedData[1]);
@@ -73,6 +76,10 @@ public class DataLoader {
 
     public Map<String, String> getAliases() {
         return this.aliases;
+    }
+
+    public Map<String, String> getNames(){
+        return this.names;
     }
 
     public int findFirstYear(){

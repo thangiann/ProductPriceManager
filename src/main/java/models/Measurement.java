@@ -19,7 +19,7 @@ public class Measurement {
 
     public MeasurementDTO createMeasurmentDTO(){
         this.price = findPrice(); 
-        return new MeasurementDTO(year, product.getName(), price);
+        return new MeasurementDTO(year, product.getAlias(), price);
     }
 
     //helper functions

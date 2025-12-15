@@ -254,7 +254,7 @@ public class ProductPriceDataManagerController implements IController {
 			}
 
 			double average = (count > 0) ? sum / count : 0;
-			stats.add(new ProductStatsDTO(p.getName(), min, average, max, lastValue));
+			stats.add(new ProductStatsDTO(p.getAlias(), min, average, max, lastValue));
 		}
 
 		return stats;
@@ -331,13 +331,15 @@ public class ProductPriceDataManagerController implements IController {
 			return;
 		}
 
+		Map<String , String> names = dataLoader.getNames();
+
 		String[] headers = dataLoader.getData().get(0);
 		for (int i = 1; i < headers.length; i++) {
 			if (headers[i].equalsIgnoreCase("CommodityTop10") ||
 					headers[i].equalsIgnoreCase("News Headline")) {
 				break;
 			}
-			products.add(new Product(headers[i].strip(), i));
+			products.add(new Product(headers[i].strip(), names.get(headers[i].strip()) , i));
 		}
 	}
 
