@@ -1,14 +1,13 @@
 package loader;
 
-import static org.junit.Assert.*;
 
+import static org.junit.Assert.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
-
 
 public class DataLoaderTest {
     private DataLoader dataLoader;
@@ -51,8 +50,8 @@ public class DataLoaderTest {
     public void testDataContainsValues() throws IOException {
         dataLoader.loadData("src/test/resources/Input/data.tsv", "\t");
         String[] firstRow = dataLoader.getData().get(1);
-        assertEquals("1960", firstRow[0]); // year
-        assertEquals("1.63", firstRow[1]); // crude oil price
+        assertEquals("1960", firstRow[0]);
+        assertEquals("1.63", firstRow[1]); 
     }
 
     @Test
@@ -67,8 +66,14 @@ public class DataLoaderTest {
     public void testAliasesContent() throws IOException {
         dataLoader.loadMetadata("src/test/resources/Input/metadata.tsv", "\t");
         Map<String, String> aliases = dataLoader.getAliases();
-        // metadata.tsv: Crude oil (average) Oil Energy
         assertEquals("Crude oil (average)", aliases.get("Oil"));
+    }
+
+    @Test
+    public void testNamesContent() throws IOException {
+        dataLoader.loadMetadata("src/test/resources/Input/metadata.tsv", "\t");
+        Map<String, String> names = dataLoader.getNames();
+        assertEquals("Oil", names.get("Crude oil (average)"));
     }
 
     @Test
@@ -102,13 +107,20 @@ public class DataLoaderTest {
         assertFalse(dataLoader.getData().isEmpty());
         assertFalse(dataLoader.getAliases().isEmpty());
         assertFalse(dataLoader.getCategories().isEmpty());
+        assertFalse(dataLoader.getNames().isEmpty());
     }
 
+    @Test
+    public void testFindFirstYear() throws IOException {
+        dataLoader.loadData("src/test/resources/Input/data.tsv", "\t");
+        int firstYear = dataLoader.findFirstYear();
+        assertEquals(1960, firstYear);
+    }
 
     @Test
     public void testLoadDataNonExistentFile() throws IOException {
         int result = dataLoader.loadData("nonexistent_file.tsv", "\t");
-        assertEquals(0, result); // Should return 0
+        assertEquals(-1, result);
     }
 
     @Test
@@ -116,6 +128,7 @@ public class DataLoaderTest {
         dataLoader.loadMetadata("nonexistent_metadata.tsv", "\t");
         assertTrue(dataLoader.getAliases().isEmpty());
         assertTrue(dataLoader.getCategories().isEmpty());
+        assertTrue(dataLoader.getNames().isEmpty());
     }
 
     @Test
@@ -130,6 +143,13 @@ public class DataLoaderTest {
         Map<String, String> aliases = dataLoader.getAliases();
         assertNotNull(aliases);
         assertTrue(aliases.isEmpty());
+    }
+
+    @Test
+    public void testGetNamesBeforeLoad() {
+        Map<String, String> names = dataLoader.getNames();
+        assertNotNull(names);
+        assertTrue(names.isEmpty());
     }
 
     @Test

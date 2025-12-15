@@ -24,7 +24,7 @@ public final class ControllerFactory {
      * @return a concrete IController implementation
      */
     public static IController createController() {
-        return new ProductPriceDataManagerController(); //replace with new WhateverYourClassIs();
+        return new ProductPriceDataManagerController();
     }
 
 }
