@@ -302,7 +302,7 @@ public class ProductPriceDataManagerControllerTest {
     }
 
     @Test
-    public void testReportAllYearsAllProductPrices_HappyDay_AllYearsPresent() throws IOException {
+    public void testReportAllYearsAllProductPrices_AllYearsPresent() throws IOException {
         controller.initializeFromIni("src/test/resources/test_config.ini", "\t");
         List<YearDTO> allData = controller.reportAllYearsAllProductPrices();
         assertTrue(allData.size() >= 64);
